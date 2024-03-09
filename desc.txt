@@ -1,0 +1,115 @@
+AUTH:
+1. /auth/token
+  - POST [anyone]
+  req {
+    username : ""
+    password : ""
+  }
+
+  res {
+    access : ""
+    refresh: ""
+  }
+
+
+2. /auth/refresh
+  - POST [anyone]
+  req {
+    refresh: ""
+  }
+
+  res {
+    access: ""
+  }
+
+
+ACCOUNTS:
+3. /accounts/
+  - GET [admin]
+  req {
+    page: number
+  }
+  res {
+    count : number,
+    page : number,
+    last_page : number,
+    has_next : boolean,
+    has_prev : boolean,
+    users : [ ... ]
+  }
+
+  - POST [anyone]
+  req {
+    name: string,
+    email : string,
+    password: string,
+  }
+
+4. /accounts/[id]
+  - GET [admin, self]
+  req ..
+  res {
+    user : { ... }
+  }
+
+  - PUT [admin, self]
+  req {
+    name: string,
+    email : string,
+    password: string,
+  }
+
+  - PATCH [admin, self]
+  req {
+    name ?: string,
+    email ?: string,
+    password ?: string,
+  }
+
+  - DELETE [admin, self]
+  req ..
+
+
+POSTS:
+4. /posts/
+- GET [authenticated]
+  req {
+    page: number
+  }
+  res {
+    count : number,
+    page : number,
+    last_page : number,
+    has_next : boolean,
+    has_prev : boolean,
+    posts : []
+  }
+
+  - POST [authenticated]
+  req {
+    title: string,
+    content : string
+  }
+
+
+6. /posts/[id]
+  - GET [authenticated]
+  req ..
+  res {
+    post : { ... }
+  }
+
+  - PUT [admin, author]
+  req {
+    title: string,
+    content : string,
+  }
+
+  - PATCH [admin, author]
+  req {
+    title ?: string,
+    content ?: string,
+  }
+
+  - DELETE [admin, author]
+  req ..
